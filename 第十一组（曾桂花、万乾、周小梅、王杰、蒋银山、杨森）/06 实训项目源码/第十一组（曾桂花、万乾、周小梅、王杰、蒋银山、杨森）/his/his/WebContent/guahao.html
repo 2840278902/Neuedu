@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>挂号</title>
+<!-- bootstrap -->
+<link href="static/lib/bootstrap-3.3.7-dist/css/bootstrap.css"
+	rel="stylesheet">
+<link href="static/css/guahao.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+.input-error{
+	border:rgb(221,43,67) solid 1px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+</style>
+</head>
+<body>
+	<!-- 第一块 -->
+	<div class="header">
+		<ul class="header-top-navbar">
+			<li>诊挂号管理</li>
+			<li>|</li>
+			<li>门诊收费管理</li>
+			<li>|</li>
+			<li>住院登记管理</li>
+			<li>|</li>
+			<li>住院费用管理</li>
+			<li>|</li>
+			<li>医院字典设定</li>
+			<li>|</li>
+			<li>个人设置</li>
+		</ul>
+	</div>
+	<!-- 第二块 -->
+	<div class="guahao-input">
+		<span><a href="">门诊挂号发票</a></span> <input type="text" id="guahao_invno"
+			placeholder="请输入门诊挂号发票号码" /> <span><a href="">更新发票号</a></span>
+	</div>
+	<!-- 第三块 -->
+	<div class="guahao-info">
+		<div class="guahao-info-title">挂号信息</div>
+		<div>
+			<ul class="guahao-info-navbar">
+				<li><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;&nbsp;预约选择</li>
+				<li id="guahao" class="btn"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;挂号</li>
+				<li><i class="glyphicon glyphicon-align-justify"></i>&nbsp;&nbsp;补收挂号费</li>
+				<li><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;补打</li>
+				<li><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;重打</li>
+				<li id="guahao_clear" class="btn"><i class="glyphicon glyphicon-erase"></i>&nbsp;&nbsp;清屏</li>
+			</ul>
+		</div>
+	</div>
+	<!-- 第四块 -->
+	<div class="guahao-info-main">
+		<select class="select2">
+			<option value="">身份证号</option>
+			<option value="">军官证号</option>
+		</select> <input type="text" id="guahao_pid" placeholder="请输入证件号码" /> <span><i
+			class="glyphicon glyphicon-credit-card"></i>医保卡读卡</span> <span><i
+			class="glyphicon glyphicon-credit-card"></i>农合卡读卡</span> <span class="btn" id="guahao_idcard"><i
+			class="glyphicon glyphicon-credit-card"></i>身份证读卡</span> <span><i
+			class="glyphicon glyphicon-credit-card"></i>健康卡读卡</span> <span><i
+			class="glyphicon glyphicon-credit-card"></i>熙康卡读卡</span>
+	</div>
+	<!-- 第五块 -->
+	<div class="info-input">
+		<ul class="info-input-mainbox">
+			<li><span class="in-title">病历号</span> <input type="text"
+				id="guahao_binglihao" /></li>
+			<li><span class="in-title">姓名</span> <input type="text"
+				id="guahao_name" /></li>
+			<li><span class="in-title">性别</span> <select id="guahao_sex">
+					<option value="0" selected="selected">男</option>
+					<option value="1">女</option>
+			</select></li>
+			<li><span class="in-title">年龄</span> <input type="text"
+				class="input1" id="guahao_age" /> <select class="select1"
+				id="guahao_agetype">
+					<option value="0">岁</option>
+					<option value="1">月</option>
+					<option value="2">天</option>
+			</select></li>
+			<li><span class="in-title">出生日期</span> <input type="date"
+				id="guahao_birdate" /></li>
+			<li><span class="in-title">结算类别</span> <select
+				id="guahao_jiesuan">
+					<option value="0" selected="selected">自费</option>
+					<option value="1">报销</option>
+			</select></li>
+			<li><span class="in-title">医疗证号</span> <input type="text"
+				id="guahao_yiliaonum" placeholder="5位数号码" /></li>
+			<li><span class="in-title">医疗类别</span> <select
+				id="guahao_yiliaotype">
+					<option value="0" selected="selected">市保</option>
+					<option value="1">公务员</option>
+			</select></li>
+			<li><span class="in-title">身份证号</span> <input type="text"
+				id="guahao_idnum" /></li>
+			<li><span class="in-title">家庭住址</span> <input type="text"
+				id="guahao_address" /></li>
+			<li><span class="in-title">看诊日期</span> <input type="date"
+				id="guahao_kanzhen" /></li>
+			<li><span class="in-title">号别</span> <select id="guahao_haobie">
+					<option value="0" selected="selected">普通</option>
+					<option value="1">专家</option>
+			</select></li>
+			<li><span class="in-title">挂号科室</span> <select id="guahao_dep">
+					<!-- <option value="0">外科</option>
+						<option value="1">内科</option> -->
+			</select></li>
+			<li><span class="in-title">看诊医生</span> <select id="guahao_doc">
+			<option value=""></option>
+			</select></li>
+			<li><span class="in-title">应收金额</span> <input type="text"
+				id="guahao_yingmoney" readonly /></li>
+			<li><span class="in-title">挂号来源</span> <select
+				id="guahao_source">
+					<option value="0" selected="selected">窗口挂号</option>
+					<option value="1">网上预约挂号</option>
+			</select></li>
+		</ul>
+	</div>
+	<!-- 第六块 -->
+	<div class="main-datalist">
+		<div class="datalist-title">
+			<span class="guahao-info-title">挂号信息列表</span> <span class="btn" id="guahao_fresh"><i
+				class="glyphicon glyphicon-refresh"></i>刷新</span>
+		</div>
+		<table class="table table-bordered">
+			<tr>
+				<th></th>
+				<th>病历号</th>
+				<th>姓名</th>
+				<th>性别</th>
+				<th>出生日期</th>
+				<th>身份证号</th>
+				<th>发票号</th>
+				<th>结算类别</th>
+				<th>挂号级别</th>
+				<th>挂号日期</th>
+				<th>看诊日期</th>
+				<th>是否已诊</th>
+				<th>状态</th>
+				<th>实收费用</th>
+				<th>看诊科室</th>
+			</tr>
+			<tbody id="showData">
+
+
+			</tbody>
+		</table>
+		<!-- 第七块 -->
+		<div class="paging">
+			<nav aria-label="Page navigation">
+				<ul class="pagination">
+					<li><a href="#" aria-label="Previous"> <span
+							aria-hidden="true">&laquo;</span>
+					</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#" aria-label="Next"> <span
+							aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+	<script src="static/lib/jquery-1.12.4.js" type="text/javascript"
+		charset="UTF-8"></script>
+	<script src="static/lib/bootstrap-3.3.7-dist/js/bootstrap.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script src="static/js/register-util.js" type="text/javascript"
+		charset="UTF-8"></script>
+	<script type="text/javascript">
+			$(document).ready(function(){
+				
+				//根据选择号别切换应收金额：普通0 专家1
+				$("#guahao_haobie").click(function(){
+					//选中下拉值
+					var state = $("#guahao_haobie option:selected").val();
+					if(state == 0){
+						$("#guahao_yingmoney").val(2);
+					}else if(state == 1){
+						$("#guahao_yingmoney").val(10);
+					}else{
+						alert("非法操作");
+					}
+				});
+				
+				//选择出生日期自动计算年龄
+				$("#guahao_birdate").blur(function(){
+					var d = $(this).val();
+					//console.info(d);
+					var age = getAgeByBirthday(d);
+					//将计算得到的年龄写入年龄框
+					$("#guahao_age").val(age);
+				});
+				
+				//查询所有科室
+				$.ajax({
+					url:"/his/dep",
+					type:"get",
+					dataType:"json",// 声明返回格式类型
+					error:function(){
+						
+					},
+					success:function(e){
+						console.info(e);
+						//展示数据到页面
+						$.each(e,function(index,data){
+							/* console.info(index);
+							console.info(data.dep_name); */
+							$("#guahao_dep").append('<option value="'+data.dep_id+'">'+data.dep_name+'</option>');
+						});
+					}
+				});
+				
+				//根据科室查询医生
+				$("#guahao_dep").blur(function(){
+					//获取到科室ID
+					//选中下拉值
+					var depId = $("#guahao_dep option:selected").val();
+					if(depId != ''){
+						//查询科室
+						$.ajax({
+							url:"/his/getDoctor",
+							type:"get",
+							data:{depId:depId},
+							dataType:"json",//声明返回格式类型
+							error:function(){
+								
+							},
+							success:function(e){
+								//console.info(e);
+								//展示数据到页面
+								//清除缓存
+								$("#guahao_doc").html("");
+								$.each(e,function(index,data){
+									 $("#guahao_doc").append('<option value="'+data.id+'">'+data.username+'</option>');
+								 });								 
+							}
+						});
+					}else{
+						alert("科室信息无效！");
+					}
+				});
+				
+				//挂号
+				$("#guahao").click(function(){
+					//未输入信息时点击挂号按钮
+					if ('' == $("#guahao_name").val()) {//如果为空
+						$("#guahao_name").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_name").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_sex").val()) {//如果为空
+						$("#guahao_sex").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_sex").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_age").val()) {//如果为空
+						$("#guahao_age").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_age").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_birdate").val()) {//如果为空
+						$("#guahao_birdate").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_birdate").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_jiesuan").val()) {//如果为空
+						$("#guahao_jiesuan").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_jiesuan").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_yiliaonum").val()) {//如果为空
+						$("#guahao_yiliaonum").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_yiliaonum").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_yiliaotype").val()) {//如果为空
+						$("#guahao_yiliaotype").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_yiliaotype").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_idnum").val()) {//如果为空
+						$("#guahao_idnum").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_idnum").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_address").val()) {//如果为空
+						$("#guahao_address").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_address").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_kanzhen").val()) {//如果为空
+						$("#guahao_kanzhen").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_kanzhen").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_haobie").val()) {//如果为空
+						$("#guahao_haobie").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_haobie").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_dep").val()) {//如果为空
+						$("#guahao_dep").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_dep").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_doc").val()) {//如果为空
+						$("#guahao_doc").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_doc").removeClass("input-error");
+					}
+					
+					if ('' == $("#guahao_source").val()) {//如果为空
+						$("#guahao_source").addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$("#guahao_source").removeClass("input-error");
+					}
+					
+					var guahaoInfo = {
+							caseNo:$("#guahao_binglihao").val(),
+							rName:$("#guahao_name").val(),
+							sex:$("#guahao_sex").val(),
+							age:$("#guahao_age").val(),
+							birthday:$("#guahao_birdate").val(),
+							settle_type:$("#guahao_jiesuan").val(),
+							mcard_no:$("#guahao_yiliaonum").val(),
+							medical_type:$("#guahao_yiliaotype").val(),
+							idCard:$("#guahao_idnum").val(),
+							address:$("#guahao_address").val(),
+							visitDate:$("#guahao_kanzhen").val(),
+							regLevel:$("#guahao_haobie").val(),
+							deptNo:$("#guahao_dep").val(),
+							drId:$("#guahao_doc").val(),
+							regPay:$("#guahao_yingmoney").val(),
+							regSrc:$("#guahao_source").val(),
+							invNo:$("#guahao_invno").val(),
+							ageType:$("#guahao_agetype").val(),
+					}
+					console.info(guahaoInfo);
+					//新增
+					$.ajax({
+						url:"/his/register",
+						type:"post",
+						data:guahaoInfo,
+						dataType:"text",//声明返回格式类型
+						error:function(){
+							
+						},
+						success:function(e){
+							if(e == "no"){
+								alert("挂号失败！");
+							}
+							else{
+								alert("挂号成功！");
+								$("#guahao_fresh").click();
+							}
+						}
+					}); 
+				});
+				
+				
+				//查询挂号信息
+				//查询所有挂号信息
+				$.ajax({
+					url:"/his/getRegister",
+					type:"get",
+					dataType:"json",// 声明返回格式类型
+					error:function(){
+						
+					},
+					success:function(e){
+						console.info(e);
+						//展示数据到页面
+						$.each(e,function(index,data){
+							
+							var regsterHtml = '<tr>';
+								regsterHtml+='<td>' + (index + 1) + '</td>';
+								regsterHtml+='<td>' + data.caseNo + '</td>';
+								regsterHtml+='<td>' + data.rname + '</td>';
+								//性别：0：男，1：女
+								if(data.sex == 0){
+									regsterHtml+='<td>男</td>';
+								}else if(data.sex == 1){
+									regsterHtml+='<td>女</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='<td>' + data.birthday + '</td>';
+								regsterHtml+='<td>' + data.idCard + '</td>';
+								regsterHtml+='<td>' + data.invNo + '</td>';
+								//结算类别：0：自费，1：报销
+								if(data.settleType == 0){
+									regsterHtml+='<td>自费</td>';
+								}else if(data.settleType == 1){
+									regsterHtml+='<td>报销</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								//挂号级别：0：普通，1：专家
+								if(data.regLevel == 0){
+									regsterHtml+='<td>普通</td>';
+								}else if(data.regLevel == 1){
+									regsterHtml+='<td>专家</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								
+								//挂号日期
+								regsterHtml+='<td>' + data.regDate + '</td>';
+								//看诊日期
+								regsterHtml+='<td>' + data.vistDate + '</td>';
+								
+								//诊断状态：0：未诊断，1：已诊断
+								if(data.diagState == 0){
+									regsterHtml+='<td>未诊断</td>';
+								}else if(data.diagState == 1){
+									regsterHtml+='<td>已诊断</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								//挂号状态：0：正常，1：已退号
+								if(data.regState == 0){
+									regsterHtml+='<td>正常</td>';
+								}else if(data.regState == 1){
+									regsterHtml+='<td>已退号</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='<td>' + data.regPay + '</td>';
+								//regsterHtml+='<td>' + data.deptNo + '</td>';
+								//看诊科室
+								if(data.deptNo == 1){
+									regsterHtml+='<td>外科</td>';
+								}else if(data.deptNo == 2){
+									regsterHtml+='<td>内科</td>';
+								}else if(data.deptNo == 3){
+									regsterHtml+='<td>耳鼻喉科</td>';
+								}else if(data.deptNo == 4){
+									regsterHtml+='<td>妇科</td>';
+								}else if(data.deptNo == 5){
+									regsterHtml+='<td>儿科</td>';
+								}else if(data.deptNo == 6){
+									regsterHtml+='<td>脑科</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='</tr>';
+								$("#showData").append(regsterHtml);
+						});
+						var no = $("#showData>tr:last td:eq(1)").text();
+						var noInt = parseInt(no);
+						noInt++;
+						//生成病历号
+						$("#guahao_binglihao").val(getTenStr(noInt));
+						
+						var fNo = $("#showData>tr:last td:eq(6)").text();
+						var fNoInt = parseInt(fNo);
+						fNoInt++;
+						//生成发票号
+						$("#guahao_invno").val(getTenStr(fNoInt));
+					}
+				});
+				
+				//清屏
+				$("#guahao_clear").click(function(){
+					$("#guahao_pid").val('');
+					$("#guahao_name").val('');
+					$("#guahao_birdate").val('');
+					$("#guahao_age").val('');
+					$("#guahao_yiliaonum").val('');
+					$("#guahao_idnum").val('');
+					$("#guahao_address").val('');
+					$("#guahao_kanzhen").val('');
+				});
+				
+				//刷新
+				$("#guahao_fresh").click(function(){
+					
+					$.ajax({
+						url:"/his/getRegister",
+						type:"get",
+						dataType:"json",// 声明返回格式类型
+						error:function(){
+							
+						},
+						success:function(e){
+							//console.info(e);
+							//展示数据到页面
+							$("#showData").html("");
+							$.each(e,function(index,data){
+								
+								var regsterHtml = '<tr>';
+									regsterHtml+='<td>' + (index + 1) + '</td>';
+									regsterHtml+='<td>' + data.caseNo + '</td>';
+									regsterHtml+='<td>' + data.rname + '</td>';
+									//性别：0：男，1：女
+									if(data.sex == 0){
+										regsterHtml+='<td>男</td>';
+									}else if(data.sex == 1){
+										regsterHtml+='<td>女</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									regsterHtml+='<td>' + data.birthday + '</td>';
+									regsterHtml+='<td>' + data.idCard + '</td>';
+									regsterHtml+='<td>' + data.invNo + '</td>';
+									//结算类别：0：自费，1：报销
+									if(data.settleType == 0){
+										regsterHtml+='<td>自费</td>';
+									}else if(data.settleType == 1){
+										regsterHtml+='<td>报销</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									//挂号级别：0：普通，1：专家
+									if(data.regLevel == 0){
+										regsterHtml+='<td>普通</td>';
+									}else if(data.regLevel == 1){
+										regsterHtml+='<td>专家</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									
+									//挂号日期
+									regsterHtml+='<td>' + data.regDate + '</td>';
+									//看诊日期
+									regsterHtml+='<td>' + data.vistDate + '</td>';
+									
+									//诊断状态：0：未诊断，1：已诊断
+									if(data.diagState == 0){
+										regsterHtml+='<td>未诊断</td>';
+									}else if(data.diagState == 1){
+										regsterHtml+='<td>已诊断</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									//挂号状态：0：正常，1：已退号
+									if(data.regState == 0){
+										regsterHtml+='<td>正常</td>';
+									}else if(data.regState == 1){
+										regsterHtml+='<td>已退号</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									regsterHtml+='<td>' + data.regPay + '</td>';
+									//regsterHtml+='<td>' + data.deptNo + '</td>';
+									//看诊科室
+									if(data.deptNo == 1){
+										regsterHtml+='<td>外科</td>';
+									}else if(data.deptNo == 2){
+										regsterHtml+='<td>内科</td>';
+									}else if(data.deptNo == 3){
+										regsterHtml+='<td>耳鼻喉科</td>';
+									}else if(data.deptNo == 4){
+										regsterHtml+='<td>妇科</td>';
+									}else if(data.deptNo == 5){
+										regsterHtml+='<td>儿科</td>';
+									}else if(data.deptNo == 6){
+										regsterHtml+='<td>脑科</td>';
+									}else{
+										regsterHtml+='<td>无效</td>';
+									}
+									regsterHtml+='</tr>';
+									$("#showData").append(regsterHtml);
+							});
+							var no = $("#showData>tr:last td:eq(1)").text();
+							var noInt = parseInt(no);
+							noInt++;
+							//生成病历号
+							$("#guahao_binglihao").val(getTenStr(noInt));
+							
+							var fNo = $("#showData>tr:last td:eq(6)").text();
+							var fNoInt = parseInt(fNo);
+							fNoInt++;
+							//生成发票号
+							$("#guahao_invno").val(getTenStr(fNoInt));
+						}
+					});
+				});
+				
+				
+				//根据身份证读卡显示信息
+				$("#guahao_idcard").click(function(){
+					var p_id = $("#guahao_pid").val();
+					if(p_id != ''){
+						//查询科室
+						$.ajax({
+							url:"/his/getRegisterByPid",
+							type:"get",
+							data:{pid:p_id},
+							dataType:"json",//声明返回格式类型
+							error:function(){
+								
+							},
+							success:function(data){
+								//清除已有的
+								$("#showData").html("");
+								//console.info(e);
+								//展示数据到页面
+								var regsterHtml = '<tr>';
+								regsterHtml+='<td><input type="checkbox" /></td>';
+								regsterHtml+='<td>' + data.caseNo + '</td>';
+								regsterHtml+='<td>' + data.rname + '</td>';
+								//性别：0：男，1：女
+								if(data.sex == 0){
+									regsterHtml+='<td>男</td>';
+								}else if(data.sex == 1){
+									regsterHtml+='<td>女</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='<td>' + data.birthday + '</td>';
+								regsterHtml+='<td>' + data.idCard + '</td>';
+								regsterHtml+='<td>' + data.invNo + '</td>';
+								//结算类别：0：自费，1：报销
+								if(data.settleType == 0){
+									regsterHtml+='<td>自费</td>';
+								}else if(data.settleType == 1){
+									regsterHtml+='<td>报销</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								//挂号级别：0：普通，1：专家
+								if(data.regLevel == 0){
+									regsterHtml+='<td>普通</td>';
+								}else if(data.regLevel == 1){
+									regsterHtml+='<td>专家</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								
+								//挂号日期
+								regsterHtml+='<td>' + data.regDate + '</td>';
+								//看诊日期
+								regsterHtml+='<td>' + data.vistDate + '</td>';
+								
+								//诊断状态：0：未诊断，1：已诊断
+								if(data.diagState == 0){
+									regsterHtml+='<td>未诊断</td>';
+								}else if(data.diagState == 1){
+									regsterHtml+='<td>已诊断</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								//挂号状态：0：正常，1：已退号
+								if(data.regState == 0){
+									regsterHtml+='<td>正常</td>';
+								}else if(data.regState == 1){
+									regsterHtml+='<td>已退号</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='<td>' + data.regPay + '</td>';
+								//regsterHtml+='<td>' + data.deptNo + '</td>';
+								//看诊科室
+								if(data.deptNo == 1){
+									regsterHtml+='<td>外科</td>';
+								}else if(data.deptNo == 2){
+									regsterHtml+='<td>内科</td>';
+								}else if(data.deptNo == 3){
+									regsterHtml+='<td>耳鼻喉科</td>';
+								}else if(data.deptNo == 4){
+									regsterHtml+='<td>妇科</td>';
+								}else if(data.deptNo == 5){
+									regsterHtml+='<td>儿科</td>';
+								}else if(data.deptNo == 6){
+									regsterHtml+='<td>脑科</td>';
+								}else{
+									regsterHtml+='<td>无效</td>';
+								}
+								regsterHtml+='</tr>';
+								$("#showData").append(regsterHtml);
+						}
+						});
+					}else{
+						alert("查无此人！");
+					}
+				});
+				
+
+				//姓名输入框失去焦点事件
+				$("#guahao_name").blur(function() {
+					var guahao_name = $(this).val();//获取账号输入框的值
+					if ('' == guahao_name) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+					}
+				});
+				//年龄输入框失去焦点事件
+				$("#guahao_age").blur(function() {
+					var guahao_age = $(this).val();//获取账号输入框的值
+					if ('' == guahao_age) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					}else if(guahao_age <= 0){
+						$(this).addClass("input-error");//添加红色样式
+						alert("请输入正确的年龄！");
+						$("#guahao_agetype").addClass("input-error");
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+						$("#guahao_agetype").removeClass("input-error");
+					}
+				});
+				
+				
+				//出生日期输入框失去焦点事件
+				$("#guahao_birdate").blur(function() {
+					var guahao_birdate = $(this).val();//获取账号输入框的值
+					if ('' == guahao_birdate) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+					}
+					var age = getAgeByBirthday(guahao_birdate);
+					//如果age < 0
+					if(age < 0){
+						alert("请检查出生日期是否选择正确");
+						$("#guahao_age").val('');
+					}else{
+						//将计算出的年龄写入年龄框
+						$("#guahao_age").val(age);
+					}
+					console.info(guahao_birdate);
+					// 对获得的"出生日期"字符串进行拆分，得到年、月、日的字符串
+					var _year = guahao_birdate.substring(0, 4);
+					var _month = guahao_birdate.substring(5, 7);
+					var _date = guahao_birdate.substring(8, 10);
+					// 将年、月、日的字符串转换为相应的数值
+					var y = parseInt(_year);//出生年
+					 var m = parseInt(_month);
+					var d = parseInt(_date);
+					//当前日期的年月日
+					var date = new Date();
+					var y1 = date.getFullYear();//当前年
+					var m1 = date.getMonth() + 1;//月
+					var d1 = date.getDate();//日
+					//转整型
+					/* var y1 = parseInt(year1);//当前年
+					var m1 = parseInt(month1);
+					var d1 = parseInt(day1); */
+					if(y == y1 && m == m1){
+						$("#guahao_agetype option:contains('天')").attr('selected',true);
+						$("#guahao_agetype option:contains('月')").attr('selected',false);
+						$("#guahao_agetype option:contains('岁')").attr('selected',false);
+					}else if(y == y1 && m == (m1-1)){
+						if(d > d1){
+							//alert("天");
+							$("#guahao_agetype option:contains('天')").attr('selected',true);
+							$("#guahao_agetype option:contains('月')").attr('selected',false);
+							$("#guahao_agetype option:contains('岁')").attr('selected',false);
+						}else{
+							//alert("月");
+							$("#guahao_agetype option:contains('天')").attr('selected',false);
+							$("#guahao_agetype option:contains('月')").attr('selected',true);
+							$("#guahao_agetype option:contains('岁')").attr('selected',false);
+						}
+					}else if(y == y1 && m < (m1-1)){
+						if(d>d1){
+							//alert("天");
+							$("#guahao_agetype option:contains('天')").attr('selected',true);
+							$("#guahao_agetype option:contains('月')").attr('selected',false);
+							$("#guahao_agetype option:contains('岁')").attr('selected',false);
+						}else{
+							//alert("月");
+							$("#guahao_agetype option:contains('天')").attr('selected',false);
+							$("#guahao_agetype option:contains('月')").attr('selected',true);
+							$("#guahao_agetype option:contains('岁')").attr('selected',false);
+						}
+					}else if(y == y1 && m < m1){
+							//alert("月");
+							$("#guahao_agetype option:contains('天')").attr('selected',false);
+							$("#guahao_agetype option:contains('月')").attr('selected',true);
+							$("#guahao_agetype option:contains('岁')").attr('selected',false);
+						
+					}else if(y == y1-1 && m > m1){
+						//alert("月");
+						$("#guahao_agetype option:contains('天')").attr('selected',false);
+						$("#guahao_agetype option:contains('月')").attr('selected',true);
+						$("#guahao_agetype option:contains('岁')").attr('selected',false);
+					}else if(y == y1-1 && m == m1 && d > d1){
+						//alert("月");
+						$("#guahao_agetype option:contains('天')").attr('selected',false);
+						$("#guahao_agetype option:contains('月')").attr('selected',true);
+						$("#guahao_agetype option:contains('岁')").attr('selected',false);
+					}else{
+						//alert("岁");
+						$("#guahao_agetype option:contains('天')").attr('selected',false);
+						$("#guahao_agetype option:contains('月')").attr('selected',false);
+						$("#guahao_agetype option:contains('岁')").attr('selected',true);
+					}
+				});
+				
+				//医疗证号输入框失去焦点事件
+				$("#guahao_yiliaonum").blur(function() {
+					var guahao_yiliaonum = $(this).val();//获取账号输入框的值
+					if ('' == guahao_yiliaonum) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					}else if(guahao_yiliaonum.length < 5){
+						$(this).addClass("input-error");//添加红色样式
+						alert("请输入5位数的医疗证号！");
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+					}
+				});
+				//身份证号输入框失去焦点事件
+				$("#guahao_idnum").blur(function() {
+					var guahao_idnum = $(this).val();//获取账号输入框的值
+					var reg=/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;//身份证正则表达式：15位数字，18位数字，17位数字跟一个校验位（字符X或者数字）
+					if ('' == guahao_idnum) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					} else if(!reg.test(guahao_idnum)) {//如果不匹配
+						$(this).addClass("input-error");
+					alert("请输入正确的身份证号码！");
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+					}
+				});
+				//家庭住址输入框失去焦点事件
+				$("#guahao_address").blur(function() {
+					var guahao_address = $(this).val();//获取账号输入框的值
+					if ('' == guahao_address) {//如果为空
+						$(this).addClass("input-error");//添加红色样式
+					} else {//如果不为空
+						$(this).removeClass("input-error");
+					}
+				});
+			});
+		</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<!-- bootstrap -->
+		<link href="static/lib/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+		<style>
+			body{
+				background-image: url(static/img/login-bg.jpg);
+				background-repeat: no-repeat;/* 背景不重复 */
+				background-size: 100%;/* 背景铺满 */
+			}
+			.mainbox{
+				width: 400px;
+				background-color: rgba(255,255,255,0.7);/* 白色背景及0.3的透明度 */
+				/* opacity: 0.2; */
+				border-radius: 15px;
+				/* 位置居中 */
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				
+				padding: 20px 30px;/* 上下 左右 */
+			}
+			.login-btn{
+				margin:0px 15px;/* 按钮间距 */
+			}
+			.mouse{
+				cursor: pointer;/* 鼠标变手形 */
+			}
+			#icon2{
+				right: 50px;/* 密码框的提示图标显示位置 */
+			}
+		</style>
+		<title>登录</title>
+	</head>
+	<body>
+		<div class="mainbox">
+			<h2 class="text-center">医疗管理系统</h2>
+			<form class="form-horizontal">
+				<div class="form-group has-feedback">
+					<label for="zhanghao" class="col-sm-2 control-label">账号</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon" id="basic-addon1">
+								<i class="glyphicon glyphicon-user"></i>
+							</span>
+							<input type="text" placeholder="请输入账号" class="form-control" id="zhanghao" aria-describedby="inputError2Status">
+							<span class="glyphicon form-control-feedback" id="icon1" aria-hidden="true"></span>
+							<span id="inputError2Status" class="sr-only">(error)</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group has-feedback">
+					<label for="inputpwd" class="col-sm-2 control-label">密码</label>
+					<div class="col-sm-10">
+						<div class="input-group">
+							<span class="input-group-addon">
+								<i class="glyphicon glyphicon-lock"></i>
+							</span>
+							<input type="password" placeholder="请输入密码" class="form-control" id="inputpwd" aria-describedby="inputError2Status">
+							<span class="input-group-addon mouse" id="eyebtn">
+								<i class="glyphicon glyphicon-eye-close"></i>
+							</span>
+							<span class="glyphicon form-control-feedback" id="icon2" aria-hidden="true"></span>
+							<span id="inputError2Status" class="sr-only">(error)</span>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="text-center col-sm-12">
+						<button type="submit" class="login-btn btn btn-primary">注册</button>
+						<button type="button" id="btn-login" class="login-btn btn btn-success">登录</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script src="static/lib/jquery-1.12.4.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="static/lib/bootstrap-3.3.7-dist/js/bootstrap.js" type="text/javascript" charset="UTF-8"></script>
+		<script type="text/javascript">
+			//加载文档
+			$(document).ready(function() {
+				//账号输入框失去焦点事件
+				$("#zhanghao").blur(function() {
+					var zhanghao = $(this).val();//获取账号输入框的值
+					if ('' == zhanghao) {//如果为空
+						$(this).parent().parent().parent().addClass("has-error");//添加红色样式
+						$(this).parent().parent().parent().removeClass("has-success");//移除绿色样式
+						$("#icon1").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon1").removeClass("glyphicon-ok");//添加错误图标样式
+					} else {//如果不为空
+						$(this).parent().parent().parent().addClass("has-success");
+						$(this).parent().parent().parent().removeClass("has-error");
+						$("#icon1").addClass("glyphicon-ok");
+						$("#icon1").removeClass("glyphicon-remove");
+					}
+				});
+				
+				//密码输入框失去焦点事件
+				$("#inputpwd").blur(function() {
+					var inputpwd = $(this).val();//获取密码输入框的值
+					//密码强度正则表达式,//最少6位，至少1个大写字母，1个小写字母，1个数字
+					var reg=/^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+					if ('' == inputpwd) {
+						$(this).parent().parent().parent().addClass("has-error");
+						$(this).parent().parent().parent().removeClass("has-success");
+						$("#icon2").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon2").removeClass("glyphicon-ok");//添加错误图标样式
+					} else if(!reg.test(inputpwd)){
+						$(this).parent().parent().parent().addClass("has-error");
+						$(this).parent().parent().parent().removeClass("has-success");
+						$("#icon2").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon2").removeClass("glyphicon-ok");//添加错误图标样式
+						alert("密码必须包含大小写字母、数字，且密码长度不低于六位！");
+					} else {
+						$(this).parent().parent().parent().addClass("has-success");
+						$(this).parent().parent().parent().removeClass("has-error");
+						$("#icon2").addClass("glyphicon-ok");
+						$("#icon2").removeClass("glyphicon-remove");
+					}
+				});
+				
+				//显示密码的单击事件
+				$("#eyebtn").click(function(){
+					var pwdtype=$("#inputpwd").attr("type");//获取密码输入框的类型type
+					//attr()返回或设置被选元素的值
+					if(pwdtype=='password'){
+						$(this).children().addClass("glyphicon-eye-open");
+						$(this).children().removeClass("glyphicon-eye-close");
+						$("#inputpwd").attr("type","text");//设置密码输入框的type为text
+					} else {
+						$(this).children().addClass("glyphicon-eye-close");
+						$(this).children().removeClass("glyphicon-eye-open");
+						$("#inputpwd").attr("type","password");
+					}
+				});
+				
+				//空输入框时点击登录按钮的事件
+				/* $("#btn-login").click(function(){
+					//账号输入框为空时点击登录按钮
+					var zhanghao = $("#zhanghao").val();
+					if ('' == zhanghao) {//如果为空
+						$("#zhanghao").parent().parent().parent().addClass("has-error");//添加红色样式
+						$("#zhanghao").parent().parent().parent().removeClass("has-success");//移除绿色样式
+						$("#icon1").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon1").removeClass("glyphicon-ok");//添加错误图标样式
+					} else {//如果不为空
+						$("#zhanghao").parent().parent().parent().addClass("has-success");
+						$("#zhanghao").parent().parent().parent().removeClass("has-error");
+						$("#icon1").addClass("glyphicon-ok");
+						$("#icon1").removeClass("glyphicon-remove");
+					}
+					//密码输入框为空时点击登录按钮
+					var inputpwd = $("#inputpwd").val();//获取密码输入框的值
+					//密码强度正则表达式,//最少6位，至少1个大写字母，1个小写字母，1个数字
+					var reg=/^.*(?=.{6,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/;
+					if ('' == inputpwd) {
+						$("#inputpwd").parent().parent().parent().addClass("has-error");
+						$("#inputpwd").parent().parent().parent().removeClass("has-success");
+						$("#icon2").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon2").removeClass("glyphicon-ok");//添加错误图标样式
+					} else if(!reg.test(inputpwd)){
+						$("#inputpwd").parent().parent().parent().addClass("has-error");
+						$("#inputpwd").parent().parent().parent().removeClass("has-success");
+						$("#icon2").addClass("glyphicon-remove");//添加正确图标样式
+						$("#icon2").removeClass("glyphicon-ok");//添加错误图标样式
+						alert("密码必须包含大小写字母、数字，且密码长度不低于六位！");
+					} else {
+						$("#inputpwd").parent().parent().parent().addClass("has-success");
+						$("#inputpwd").parent().parent().parent().removeClass("has-error");
+						$("#icon2").addClass("glyphicon-ok");
+						$("#icon2").removeClass("glyphicon-remove");
+					}
+				}); */
+				$("#btn-login").click(function(){
+					//获取值
+					var UserName = $("#zhanghao").val();
+					var InputPwd = $("#inputpwd").val();
+					//ajax
+					//$.ajax({})
+					$.ajax({
+						url:"/his/Login",//请求地址
+						type:"post",//请求类型
+						dataType:"json",
+						data:{//请求数据
+							zhanghao:UserName,
+							inputpwd:InputPwd
+						},
+						error:function(){
+							//错误
+						},
+						success:function(e){
+							//成功
+							//在控制台输出返回消息
+							//console.info(e);
+							if(e == 'error'){
+								//当登录错误时，标红账号输入框
+								$("#zhanghao").parent().parent().parent().addClass("has-error");//添加红色样式
+								$("#zhanghao").parent().parent().parent().removeClass("has-success");//移除绿色样式
+								$("#icon1").addClass("glyphicon-remove");//添加正确图标样式
+								$("#icon1").removeClass("glyphicon-ok");//添加错误图标样式
+								//当登录错误时，标红密码输入框
+								$("#inputpwd").parent().parent().parent().addClass("has-error");
+								$("#inputpwd").parent().parent().parent().removeClass("has-success");
+								$("#icon2").addClass("glyphicon-remove");//添加正确图标样式
+								$("#icon2").removeClass("glyphicon-ok");//添加错误图标样式
+								alert("账号或密码错误！");
+							}else{
+								//console.info(e);
+								window.location.href="Diagnose.html?id="+e.id;
+							}
+							
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

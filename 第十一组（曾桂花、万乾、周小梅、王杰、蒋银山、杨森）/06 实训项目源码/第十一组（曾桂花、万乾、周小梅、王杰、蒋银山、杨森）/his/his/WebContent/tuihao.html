@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>退号</title>
+		<!-- bootstrap -->
+		<link href="static/lib/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+		<link href="static/css/tuihao.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<!-- 第一块 -->
+		<div class="header">
+			<ul class="header-top-navbar">
+				<li>诊挂号管理</li>
+				<li>|</li>
+				<li>门诊收费管理</li>
+				<li>|</li>
+				<li>住院登记管理</li>
+				<li>|</li>
+				<li>住院费用管理</li>
+				<li>|</li>
+				<li>医院字典设定</li>
+				<li>|</li>
+				<li>个人设置</li>
+			</ul>
+		</div>
+		<!-- 第二块 -->
+		<div class="tuihao-input">
+			<span><a href="">门诊挂号发票</a></span>
+			<input id="tuihao_invno" type="text" placeholder="请输入门诊挂号发票号码" />
+			<span><a href="">更新发票号</a></span>
+		</div>
+		<!-- 第三块 -->
+		<div class="tuihao-info">
+			<div class="tuihao-info-title">挂号信息</div>
+			<div>
+				<ul class="tuihao-info-navbar">
+					<li><i class="glyphicon glyphicon-align-justify"></i>&nbsp;&nbsp;退费</li>
+					<li class="btn" id="tuihao_btn"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;退号</li>
+					<li class="btn" id="tuihao_clear"><i class="glyphicon glyphicon-erase"></i>&nbsp;&nbsp;清屏</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 第四块 -->
+		<div class="tuihao-info-main">
+			<select class="select2">
+				<option value="">身份证号</option>
+				<option value="">军官证号</option>
+			</select>
+			<input id="tuihao_pid" type="text" placeholder="请输入证件号码" />
+			<span><i class="glyphicon glyphicon-credit-card"></i>医保卡读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>农合卡读卡</span>
+			<span class="btn" id="tuihao_idcard"><i class="glyphicon glyphicon-credit-card"></i>身份证读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>健康卡读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>熙康卡读卡</span>
+		</div>
+		<!-- 第五块 -->
+		<div class="info-input">
+			<ul class="info-input-mainbox">
+				<li>
+					<span class="in-title">病历号</span>
+					<input type="text" id="tuihao_binglihao" readonly />
+				</li>
+				<li>
+					<span class="in-title">姓名</span>
+					<input type="text" id="tuihao_name" readonly />
+				</li>
+				<li>
+					<span class="in-title">性别</span>
+					<input type="text" id="tuihao_sex" readonly />
+				</li>
+				<li>
+					<span class="in-title">年龄</span>
+					<input type="text" id="tuihao_age" readonly />
+				</li>
+				<li>
+					<span class="in-title">出生日期</span>
+					<input type="text" id="tuihao_birdate" readonly />
+				</li>
+				<li>
+					<span class="in-title">结算类别</span>
+					<input type="text" id="tuihao_jiesuan" readonly />
+				</li>
+				<li>
+					<span class="in-title">医疗证号</span>
+					<input type="text" id="tuihao_yiliaonum" readonly />
+				</li>
+				<li>
+					<span class="in-title">医疗类别</span>
+					<input type="text" id="tuihao_yiliaotype" readonly />
+				</li>
+				<li>
+					<span class="in-title">身份证号</span>
+					<input type="text" id="tuihao_idnum" readonly />
+				</li>
+				<li>
+					<span class="in-title">家庭住址</span>
+					<input type="text" id="tuihao_address" readonly />
+				</li>
+				<li>
+					<span class="in-title">发票号</span>
+					<input type="text" id="tuihao_fapiao" readonly />
+				</li>
+			</ul>
+		</div>
+		<!-- 第六块 -->
+		<div class="buju">
+			<div class="datalist-title-tuihao">
+				<span class="tuihao-info-title">挂号信息列表</span>
+				<span><i class="glyphicon glyphicon-refresh"></i>刷新</span>
+			</div>
+			<div class="main-datalist1">
+				<table class="table table-bordered" style="white-space: nowrap;">
+					<tr>
+						<th></th>
+						<th>病历号1</th>
+						<th>姓名2</th>
+						<th>性别3</th>
+						<th>出生日期4</th>
+						<th>身份证号5</th>
+						<th>发票号6</th>
+						<th>结算类别7</th>
+						<th>挂号级别8</th>
+						<th>挂号日期9</th>
+						<th>看诊日期10</th>
+						<th>是否已诊11</th>
+						<th>状态12</th>
+						<th>实收费用13</th>
+						<th>看诊科室14</th>
+					</tr>
+					<tbody id="showData">
+
+
+			</tbody>
+				</table>
+			</div>
+			<div class="paging">
+				<nav aria-label="Page navigation">
+					<ul class="pagination pagination-sm">
+						<li>
+							<a href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="buju">
+			<div class="main-datalist2-info">
+				<div class="datalist-title">
+					<span class="tuihao-info-title">挂号发票信息</span>
+					<!-- 	  	  	<span><i class="glyphicon glyphicon-refresh"></i>刷新</span>
+ -->
+				</div>
+				<div class="info-input">
+					<ul class="info-input-mainbox">
+						<li>
+							<span class="in-title">票据种类</span>
+							<input type="text" id="tuihao_kind" />
+						</li>
+						<li>
+							<span class="in-title">首张发票号</span>
+							<input type="text" id="tuihao_firno" />
+						</li>
+						<li>
+							<span class="in-title">总金额</span>
+							<input type="text" id="tuihao_tomoney" />
+						</li>
+						<li>
+							<span class="in-title">自费金额</span>
+							<input type="text" id="tuihao_zifei" />
+						</li>
+						<li>
+							<span class="in-title">自付金额</span>
+							<input type="text" id="tuihao_zifu" />
+						</li>
+						<li>
+							<span class="in-title">报销金额</span>
+							<input type="text" id="tuihao_baoxiao" />
+						</li>
+						<li>
+							<span class="in-title">实付金额</span>
+							<input type="text" id="tuihao_shifu" />
+						</li>
+						<li>
+							<span class="in-title">差额</span>
+							<input type="text" id="tuihao_chae" />
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="main-datalist2-detail">
+				<div class="datalist-title">
+					<span class="tuihao-info-title">门诊收费明细</span>
+				</div>
+				<div class="detail-scorll">
+					<table class="table table-bordered" style="white-space: nowrap;">
+						<tr>
+							<th></th>
+							<th>项目名称</th>
+							<th>药品标识</th>
+							<th>项目状态</th>
+							<th>单价</th>
+							<th>总金额</th>
+							<th>自费金额</th>
+							<th>自付金额</th>
+							<th>报销金额</th>
+							<th>实付金额</th>
+							<th>差额</th>
+						</tr>
+						<tbody id="showData_fapiao">
+
+
+			</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		<script src="static/lib/jquery-1.12.4.js" type="text/javascript"
+		charset="UTF-8"></script>
+	<script src="static/lib/bootstrap-3.3.7-dist/js/bootstrap.js"
+		type="text/javascript" charset="UTF-8"></script>
+	<script src="static/js/register-util.js" type="text/javascript"
+		charset="UTF-8"></script>
+	<script type="text/javascript">
+			$(document).ready(function(){
+				//清屏
+				$("#tuihao_clear").click(function(){
+					$("#tuihao_pid").val('');
+					$("#tuihao_binglihao").val('');
+					$("#tuihao_name").val('');
+					$("#tuihao_sex").val('');
+					$("#tuihao_pid").val('');
+					$("#tuihao_age").val('');
+					$("#tuihao_birdate").val('');
+					$("#tuihao_jiesuan").val('');
+					$("#tuihao_yiliaonum").val('');
+					$("#tuihao_yiliaotype").val('');
+					$("#tuihao_idnum").val('');
+					$("#tuihao_address").val('');
+					$("#tuihao_kanzhen").val('');
+					$("#tuihao_haobie").val('');
+					$("#tuihao_dep").val('');
+					$("#tuihao_doc").val('');
+					$("#tuihao_yingmoney").val('');
+					$("#tuihao_source").val('');
+					$("#tuihao_kind").val('');
+					$("#tuihao_firno").val('');
+					$("#tuihao_tomoney").val('');
+					$("#tuihao_zifei").val('');
+					$("#tuihao_zifu").val('');
+					$("#tuihao_baoxiao").val('');
+					$("#tuihao_shifu").val('');
+					$("#tuihao_chae").val('');
+				});
+
+				//根据身份证读卡显示信息
+				$("#tuihao_idcard").click(function(){
+					var p_id = $("#tuihao_pid").val();
+					if(p_id != ''){
+						//查询科室
+						$.ajax({
+							url:"/his/tuiRegisterByPid",
+							type:"get",
+							data:{pid:p_id},
+							dataType:"json",//声明返回格式类型
+							error:function(){
+								
+							},
+							success:function(data){
+								//清除已有的
+								$("#showData").html("");
+								//console.info(e);
+								//展示数据到页面
+								var registerHtml = '<tr>';
+								registerHtml+='<td><input type="checkbox" id="show-reg" /></td>';
+								registerHtml+='<td>' + data.caseNo + '</td>';
+								registerHtml+='<td>' + data.rname + '</td>';
+								//性别：0：男，1：女
+								if(data.sex == 0){
+									registerHtml+='<td>男</td>';
+								}else if(data.sex == 1){
+									registerHtml+='<td>女</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								registerHtml+='<td>' + data.birthday + '</td>';
+								registerHtml+='<td>' + data.idCard + '</td>';
+								registerHtml+='<td>' + data.invNo + '</td>';
+								//结算类别：0：自费，1：报销
+								if(data.settleType == 0){
+									registerHtml+='<td>自费</td>';
+								}else if(data.settleType == 1){
+									registerHtml+='<td>报销</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								//挂号级别：0：普通，1：专家
+								if(data.regLevel == 0){
+									registerHtml+='<td>普通</td>';
+								}else if(data.regLevel == 1){
+									registerHtml+='<td>专家</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								
+								//挂号日期
+								registerHtml+='<td>' + data.regDate + '</td>';
+								//看诊日期
+								registerHtml+='<td>' + data.vistDate + '</td>';
+								
+								//诊断状态：0：未诊断，1：已诊断
+								if(data.diagState == 0){
+									registerHtml+='<td>未诊断</td>';
+								}else if(data.diagState == 1){
+									registerHtml+='<td>已诊断</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								//挂号状态：0：正常，1：已退号
+								if(data.regState == 0){
+									registerHtml+='<td>正常</td>';
+								}else if(data.regState == 1){
+									registerHtml+='<td>已退号</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								registerHtml+='<td>' + data.regPay + '</td>';
+								//registerHtml+='<td>' + data.deptNo + '</td>';
+								//看诊科室
+								if(data.deptNo == 1){
+									registerHtml+='<td>外科</td>';
+								}else if(data.deptNo == 2){
+									registerHtml+='<td>内科</td>';
+								}else if(data.deptNo == 3){
+									registerHtml+='<td>耳鼻喉科</td>';
+								}else if(data.deptNo == 4){
+									registerHtml+='<td>妇科</td>';
+								}else if(data.deptNo == 5){
+									registerHtml+='<td>儿科</td>';
+								}else if(data.deptNo == 6){
+									registerHtml+='<td>脑科</td>';
+								}else{
+									registerHtml+='<td>无效</td>';
+								}
+								registerHtml +='<td style="display:none">'+ data.mcardNo+'</td>';
+								registerHtml +='<td style="display:none">'+ data.medicalType+'</td>';
+								registerHtml +='<td style="display:none">'+ data.address+'</td>';
+								registerHtml +='<td style="display:none">'+ data.id+'</td>';
+								registerHtml+='</tr>';
+								$("#showData").append(registerHtml);
+						}
+						});
+					}else{
+						alert("科室信息无效！");
+					}
+				});
+				
+				
+				//点击挂号信息的选择框展示详情
+				//设定全局的“是否诊断”变量和“是否已退号”变量
+				var is_diagnose;
+				var is_tui;
+				//click绑定单击事件
+				$("#showData").on("click","#show-reg",function(){
+					//读取对应表格列下面的内容
+					var tb = $(this).parent().parent().children("td");
+					var case_no= tb.eq(1).text();//病历号
+					var pname = tb.eq(2).text();//姓名
+					var sex = tb.eq(3).text();//性别
+					var birthday = tb.eq(4).text();//出生日期
+					var settle_type = tb.eq(7).text();//结算类别
+					var pid = tb.eq(5).text();//身份证号
+					var invNo = tb.eq(6).text();//发票号
+					var mcardNo = tb.eq(15).text();//医疗证号
+					var medicalType = tb.eq(16).text();//医疗类别
+					var address = tb.eq(17).text();//家庭地址
+					var id = tb.eq(18).text();//编号
+					
+					//是否已诊断
+					is_diagnose = tb.eq(11).text();
+					//是否已退号
+					is_tui = tb.eq(12).text();
+					//写入挂号信息
+					$("input[id='tuihao_binglihao']").val(case_no);
+					$("input[id='tuihao_name']").val(pname);
+					$("input[id='tuihao_sex']").val(sex);
+					$("input[id='tuihao_age']").val(getAgeByBirthday(birthday));
+					$("input[id='tuihao_birdate']").val(birthday);
+					$("input[id='tuihao_jiesuan']").val(settle_type);
+					$("input[id='tuihao_idnum']").val(pid);
+					$("input[id='tuihao_fapiao']").val(invNo);
+					$("input[id='tuihao_yiliaonum']").val(mcardNo);
+					$("input[id='tuihao_yiliaotype']").val(mcardNo==0?"市保":"公务员");
+					$("input[id='tuihao_address']").val(address);
+					
+					//写入挂号发票信息
+					var reg_pay = tb.eq(13).text();
+					$("input[id='tuihao_kind']").val("门诊挂号发票号");
+					$("input[id='tuihao_firno']").val(invNo);
+					$("input[id='tuihao_tomoney']").val(reg_pay);
+					$("input[id='tuihao_zifei']").val(reg_pay);
+					$("input[id='tuihao_zifu']").val(0);
+					$("input[id='tuihao_baoxiao']").val(0);
+					$("input[id='tuihao_shifu']").val(reg_pay);
+					$("input[id='tuihao_chae']").val(0);
+					
+					//写入门诊收费明细
+					$("#showData_fapiao").html('');
+					var reg_status = tb.eq(12).text();
+					var invHtml = '<tr>';
+					invHtml += '<td><input id="select_unregister" type="checkbox" value="'+id+'" style="width:20px" /></td>';
+					invHtml += '<td>挂号费</td>';
+					invHtml += '<td>否</td>';
+					invHtml += '<td>'+reg_status+'</td>';
+					invHtml += '<td>'+reg_pay+'</td>';
+					invHtml += '<td>'+reg_pay+'</td>';
+					invHtml += '<td>'+reg_pay+'</td>';
+					invHtml += '<td>0</td>';
+					invHtml += '<td>0</td>';
+					invHtml += '<td>'+reg_pay+'</td>';
+					invHtml += '<td>0</td>';
+					invHtml += '</tr>';
+					$("#showData_fapiao").append(invHtml);
+					
+				});
+				
+				// 退号请求
+				$("#tuihao_btn").click(function(){
+					// 判断是否勾选
+					var isSelect = $("#select_unregister").is(":checked");
+					if(!isSelect){
+						alert("请先选择门诊收费明细");
+					}else if("已诊断"== is_diagnose){
+						alert("已诊断不能退号");
+					}else if("已退号"== is_tui){
+						alert("已退号不能再次退号");
+					}else{
+						$.ajax({
+							url:"/his/getUnRegisterById",
+							type:"get",
+							data:{regsiterId: $("#select_unregister").val()},
+							dataType:"text", // 声明返回格式类型
+							error:function(){
+								alert("退号异常");
+							},
+							success:function(data){
+								if("yes" == data){
+									alert("退号成功");
+									$("#tuihao_idcard").click();
+								}else{
+									alert("faild");
+								}
+							}
+						});
+					}
+				});
+			});
+			
+	</script>
+
+	</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>退费</title>
+		<!-- bootstrap -->
+		<link href="static/lib/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+		<link href="static/css/Refund.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<!-- 第一块 -->
+		<div class="header">
+			<ul class="header-top-navbar">
+				<li>门诊挂号管理</li>
+				<li>|</li>
+				<li>门诊收费管理</li>
+				<li>|</li>
+				<li>住院登记管理</li>
+				<li>|</li>
+				<li>住院费用管理</li>
+				<li>|</li>
+				<li>医院字典设定</li>
+				<li>|</li>
+				<li>个人设置</li>
+			</ul>
+		</div>
+		<!-- 第二块 -->
+		<div class="tuifei-info">
+			<div class="tuifei-info-title">单据信息</div>
+			<div class="tuifei-input">
+				<span><a href="">门诊普通发票</a></span>
+				<input type="text" placeholder="请输入门诊挂号发票号码" />
+				<span><a href="">更新发票号</a></span>
+			</div>
+			<div class="tuifei-input2">
+				<select class="select2">
+					<option value="">身份证号</option>
+					<option value="">军官证号</option>
+				</select>
+				<input id="tuifei_pid" type="text" placeholder="请输入证件号码" />
+				<span><i class="glyphicon glyphicon-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;医保卡读卡</span>
+				<span><i class="glyphicon glyphicon-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;农合卡读卡</span>
+				<span><i class="glyphicon glyphicon-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;身份证读卡</span>
+				<span><i class="glyphicon glyphicon-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;健康卡读卡</span>
+				<span><i class="glyphicon glyphicon-credit-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;熙康卡读卡</span>
+			</div>
+		</div>
+		<!-- 第三块 -->
+		<div class="info-input">
+			<ul class="info-input-mainbox">
+				<li>
+					<span class="in-title">单据号</span>
+					<input id="tuifei_danjuhao" type="text" />
+				</li>
+				<li>
+					<span class="in-title">病历号</span>
+					<input id="tuifei_binglihao" type="text" />
+				</li>
+				<li>
+					<span class="in-title">患者姓名</span>
+					<input id="tuifei_name" type="text" />
+				</li>
+				<li>
+					<span class="in-title">结算类别</span>
+					<input id="tuifei_jiesuan" type="text" />
+				</li>
+				<li>
+					<span class="in-title">总金额</span>
+					<input id="tuifei_totalMoney" type="text" />
+				</li>
+				<li>
+					<span class="in-title">实付金额</span>
+					<input id="tuifei_shifu" type="text" />
+				</li>
+				<li>
+					<span class="in-title">现金支付</span>
+					<input id="tuifei_xianjin" type="text" />
+				</li>
+				<li>
+					<span class="in-title">账户支付</span>
+					<input id="tuifei_zhanghu" type="text" />
+				</li>
+				<li>
+					<span class="in-title">报销金额</span>
+					<input id="tuifei_baoxiao" type="text" />
+				</li>
+			</ul>
+		</div>
+		<!-- 第四块 -->
+		<div class="main-datalist">
+			<!-- 标题 -->
+			<div class="datalist-title">
+				<span class="tuifei-info-title">收费项目列表</span>
+				<span id="tuifei_clear" class="btn"><i class="glyphicon glyphicon-erase"></i>清屏</span>
+				<span><i class="glyphicon glyphicon-print"></i>保存</span>
+				<span id="tuifei_quantui" class="btn"><i class="glyphicon glyphicon-th-list"></i>全退</span>
+			</div>
+			<!-- 表格 -->
+			<table class="table table-bordered" style="white-space: nowrap;">
+				<tr>
+					<th></th>
+					<th>项目名称</th>
+					<th>规格</th>
+					<th>优惠前单价</th>
+					<th>优惠后单价</th>
+					<th>开立数量</th>
+					<th>单位</th>
+					<th>可退数量</th>
+					<th>退费数量</th>
+					<th>退费金额</th>
+					<th>优惠后退费金额</th>
+					<th>发药标识</th>
+				</tr>
+				<tbody id="tuifei_show">
+				
+				</tbody>
+			</table>
+		</div>
+		<script src="static/lib/jquery-1.12.4.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="static/lib/bootstrap-3.3.7-dist/js/bootstrap.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="static/js/register-util.js" type="text/javascript" charset="UTF-8"></script>
+		<script type="text/javascript">
+		//病历号框失焦显示信息
+		//总金额全局变量
+		var totalMoney = 0;
+		$("#tuifei_binglihao").blur(function(){
+			//获取病历号
+			var caseNo = $(this).val();
+			//ajax请求后台数据
+			$.ajax({
+				url:"/his/getUnPay",
+				data:{caseNo: caseNo},
+				dataType:"json",
+				error:function(){
+					alert("查询失败");
+				},
+				success:function(e){
+					console.info(e);
+					$("#tuifei_show").html('');
+					$.each(e, function(index, data){
+						totalMoney += eval(data.payMoney);
+						var html ='<tr>';
+						html += '<td></td>';
+						html += '<td>'+data.dgName+'</td>';
+						html += '<td>'+data.dgSpec+'</td>';
+						html += '<td>'+data.dgPrice+'</td>';
+						html += '<td class="pdprice">'+data.dgPrice+'</td>';
+						html += '<td class="payNum">'+data.payNum+'</td>';
+						html += '<td>'+data.dgUit+'</td>';
+						html += '<td class="backPayNum">'+data.payNum+'</td>';
+						html += '<td><input type="text" name="back_num" value="0"  style="border: 1px solid rgb(169, 169, 169);"></td>';
+						html += '<td><input type="text" value="0" style="border:none; background-color: inherit; text-align:center;" readonly /></td>';
+						html += '<td><input type="text" value="0" style="border:none; background-color: inherit; text-align:center;" readonly /></td>';
+						html += '<td>否</td>';
+						html += '<td class="drugno" style="display:none;">'+data.id+'</td>';
+						html += '<td class="drugno" style="display:none;">'+data.payMoney+'</td>';
+						html += '</tr>';
+						$("#tuifei_show").append(html);
+						
+						//$("input[id='tuifei_name']").val(data.caseNo);
+						$("input[id='tuifei_name']").val(data.rName);
+						switch (data.settleType) {
+							case 0:
+								$("input[id='tuifei_jiesuan']").val("自费")
+								break;
+							case 1:
+								$("input[id='tuifei_jiesuan']").val("报销")
+								break;
+						}
+						$("input[id='tuifei_totalMoney']").val(totalMoney)
+						$("input[id='tuifei_danjuhao']").val(data.caseNo);
+						$("input[id='tuifei_shifu']").val(totalMoney);
+						if($("input[id='tuifei_jiesuan']").val()=='自费'){
+							$("input[id='tuifei_xianjin']").val(totalMoney);
+							$("input[id='tuifei_zhanghu']").val('0');
+							$("input[id='tuifei_baoxiao']").val('0');
+						}else{
+							$("input[id='tuifei_xianjin']").val('0');
+							$("input[id='tuifei_zhanghu']").val('0');
+							$("input[id='tuifei_baoxiao']").val(totalMoney);
+						}
+						$("input[id='tuifei_name']").val(data.rName);
+					});
+				}
+			});
+		});
+		
+		
+		//根据退费数量计算退费金额
+		$("#tuifei_show").on("blur","input[name='back_num']",function(){
+			var number1 = $(this).val();//退费数量
+			var tb = $(this).parent().parent().children("td");
+			var price = tb.eq(3).text(); // 单价
+			var canNum = tb.eq(7).text();// 可退数量
+			var total = eval(number1*price);
+			console.info("number1:"+number1);
+			console.info("price:"+price);
+			console.info("canNum:"+canNum);
+			console.info("退费金额:"+eval(number1*price));
+			//判断退费数量是否大于可退数量
+			if(number1 <= canNum && number1 >= 0){
+				$(this).parent().parent().children("td").eq(9).children("input").val(total);
+			}else{
+				$(this).parent().parent().children("td").eq(9).val(total);//退费金额
+				alert("退费数量超出！请重新输入！");
+				$(this).val('');
+			}
+		});
+		
+		//点击退费
+		$("#tuifei_quantui").click(function(){
+			var trs = $("#tuifei_show").children("tr");
+			//声明数组支付PayId
+			var idArr=[];
+			for(var i = 0; i < trs.length; i++){
+				var tb = $(trs.get(i)).children("td");
+				var shengNum = eval(tb.eq(7).text() - tb.eq(8).children("input").val());//可退数量减退费数量//更新pay_num
+				var shengMoney = eval(tb.eq(13).text() - tb.eq(9).children("input").val());//总金额-退费金额//更新pay_money
+				idArr.push(tb.eq(12).text()+","+shengNum+","+shengMoney);//(id,剩余数量，剩余钱)
+				console.info("shengNum:"+shengNum);
+				console.info("shengMoney:"+shengMoney);
+			}
+			console.info(idArr);
+			$.ajax({
+				url:"/his/updatePayNumById",
+				type:"post",
+				dataType:"text",
+				data:{
+					idArr:idArr
+					},
+				traditional:true,//数组传参设置为true
+				error:function(){
+					alert("failed");
+				},
+				success:function(e){//更改成功
+					console.info(e);
+					if(e=="yes"){
+						alert("退费成功");
+						$("#tuifei_binglihao").blur();
+					}else{
+						alert("退费失败");
+					}
+				}
+			});
+		});
+		
+		//清屏
+		$("#tuifei_clear").click(function(){
+			$("#tuifei_binglihao").val('');
+			$("#tuifei_name").val('');
+			$("#tuifei_age").val('');
+			$("#tuifei_birdate").val('');
+			$("#tuifei_dia").val('');
+			$("#tuifei_jiesuan").val('');
+			$("#tuifei_yiliaonum").val('');
+			$("#tuifei_idnum").val('');
+		});
+		
+		</script>
+	</body>
+</html>

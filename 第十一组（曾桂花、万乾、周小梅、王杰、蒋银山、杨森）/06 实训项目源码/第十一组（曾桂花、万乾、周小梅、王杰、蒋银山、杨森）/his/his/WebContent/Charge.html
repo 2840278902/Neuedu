@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>收费</title>
+		<!-- bootstrap -->
+		<link href="static/lib/bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+		<link href="static/css/Charge.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<!-- 第一块 -->
+		<div class="header">
+			<ul class="header-top-navbar">
+				<li>诊挂号管理</li>
+				<li>|</li>
+				<li>门诊收费管理</li>
+				<li>|</li>
+				<li>住院登记管理</li>
+				<li>|</li>
+				<li>住院费用管理</li>
+				<li>|</li>
+				<li>医院字典设定</li>
+				<li>|</li>
+				<li>个人设置</li>
+			</ul>
+		</div>
+		<!-- 第二块 -->
+		<div class="shoufei-info">
+			<div class="shoufei-input">
+				<span><a href="">门诊普通发票</a></span>
+				<input type="text" placeholder="请输入门诊挂号发票号码" />
+				<span><a href="">更新发票号</a></span>
+			</div>
+			<div>
+				<ul class="shoufei-info-navbar">
+					<li><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;发票重打</li>
+					<li><i class="glyphicon glyphicon-print"></i>&nbsp;&nbsp;发票补打</li>
+					<li id="shoufei_jiesuan" class="btn"><i class="glyphicon glyphicon-ok-circle"></i>&nbsp;&nbsp;收费结算</li>
+					<li id="shoufei_huajia" class="btn"><i class="glyphicon glyphicon-yen"></i>&nbsp;&nbsp;划价</li>
+					<li><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;增方</li>
+					<li><i class="glyphicon glyphicon-minus"></i>&nbsp;&nbsp;删方</li>
+					<li id="shoufei_clear" class="btn"><i class="glyphicon glyphicon-erase"></i>&nbsp;&nbsp;清屏</li>
+				</ul>
+			</div>
+		</div>
+		<!-- 第三块 -->
+		<div class="shoufei-info-main">
+			<select class="select2">
+				<option value="">身份证号</option>
+				<option value="">军官证号</option>
+			</select>
+			<input id="shoufei_pid" type="text" placeholder="请输入证件号码" />
+			<span><i class="glyphicon glyphicon-credit-card"></i>医保卡读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>农合卡读卡</span>
+			<span id="shoufei_idcard" class="btn"><i class="glyphicon glyphicon-credit-card"></i>身份证读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>健康卡读卡</span>
+			<span><i class="glyphicon glyphicon-credit-card"></i>熙康卡读卡</span>
+		</div>
+		<!-- 第四块 -->
+		<div class="info-input">
+			<ul class="info-input-mainbox">
+				<li>
+					<span class="in-title">病历号</span>
+					<input id="shoufei_binglihao" type="text" />
+				</li>
+				<li>
+					<span class="in-title">姓名</span>
+					<input id="shoufei_name" type="text" readonly />
+				</li>
+				<li>
+					<span class="in-title">性别</span>
+					<select  id="shoufei_sex">
+						<option value="0">男</option>
+						<option value="1">女</option>
+					</select>
+				</li>
+				<li>
+					<span class="in-title">年龄</span>
+					<input id="shoufei_age" type="text" class="input1" readonly />
+					<input id="shoufei_agetype" class="select1" readonly />
+				</li>
+				<li>
+					<span class="in-title">出生日期</span>
+					<input id="shoufei_birdate" type="date" readonly />
+				</li>
+				<li>
+					<span class="in-title">医保诊断</span>
+					<input id="shoufei_dia" type="text" readonly />
+				</li>
+				<li>
+					<span class="in-title">身份证号</span>
+					<input id="shoufei_idnum" type="text" readonly />
+				</li>
+				<li>
+					<span class="in-title">结算类别</span>
+					<select id="shoufei_jiesuan">
+						<option value="0">自费</option>
+						<option value="1">报销</option>
+					</select>
+				</li>
+				<li>
+					<span class="in-title">医疗证号</span>
+					<input id="shoufei_yiliaonum" type="text" readonly />
+				</li>
+				<li>
+					<span class="in-title">医疗类别</span>
+					<select id="shoufei_yiliaotype">
+						<option value="0" selected="selected">市保</option>
+						<option value="1">公务员</option>
+					</select>
+				</li>
+				<li>
+					<span class="in-title">开单科室</span>
+					<input id="shoufei_dep" readonly />
+				</li>
+				<li>
+					<span class="in-title">开单医生</span>
+					<input id="shoufei_doc" readonly>
+				</li>
+			</ul>
+		</div>
+		<!-- 第五块 -->
+		<div class="main-datalist">
+			<!-- 标题 -->
+			<div class="datalist-title">
+				<span class="shoufei-info-title" style="float: left;">收费项目列表</span>
+				<span id="shoufei_removedrug" class="btn"><i class="glyphicon glyphicon-minus"></i>删除</span>
+				<span id="shoufei_add_drug" class="btn"><i class="glyphicon glyphicon-plus"></i>增加</span>
+			</div>
+			<!-- 表格 -->
+			<table class="table table-bordered" style="white-space: nowrap;">
+				<tr>
+					<th><input type="checkbox"></th>
+					<th>项目名称</th>
+					<th>规格</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>单位</th>
+					<th>付数</th>
+					<th>金额</th>
+					<th>执行科室</th>
+				</tr>
+				<tbody id="showData">
+					
+				</tbody>
+			</table>
+			<div class="totalmoney">
+				<span>合计金额：<input type="text" id="total_char" value="零" readonly style="border:none" /></span>
+				<span>￥：<input type="text" id="total" value="0" readonly style="border:none" /></span>
+			</div>
+		</div>
+		<!-- 增加按钮模态框 -->
+		<div id="show-modal">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">西医诊断</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<table class="table table-striped">
+		      		<thead>
+		      			<tr>
+							<th><input type="checkbox" /></th>
+							<th>项目名称</th>
+							<th>规格</th>
+							<th>单价</th>
+							<th>数量</th>
+							<th>单位</th>
+						</tr>
+		      		</thead>
+		      		<tbody id="show-druginfo">
+		      		
+		      		</tbody>
+		      	</table>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submit_btn">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</div>
+		
+		<!-- 增加收费结算模态框 -->
+		<div id="show-modal2">
+		<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">划价表单</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<table class="table table-striped">
+		      		<thead>
+		      			<tr>
+							<th></th>
+							<th>划价号</th>
+							<th>病历号</th>
+							<th>总金额</th>
+							<th>状态</th>
+						</tr>
+		      		</thead>
+		      		<tbody id="show-huajiainfo">
+		      		
+		      		</tbody>
+		      	</table>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		        <button type="button" class="btn btn-primary" data-dismiss="modal" id="submit_btn_tb">确定</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		</div>
+		
+		<script src="static/lib/jquery-1.12.4.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="static/lib/bootstrap-3.3.7-dist/js/bootstrap.js" type="text/javascript" charset="UTF-8"></script>
+		<script src="static/js/register-util.js" type="text/javascript" charset="UTF-8"></script>
+		<script type="text/javascript">
+		//转换阿拉伯数字为中文繁体
+		function getChineseString(numoney){
+		    var fraction = ['角','分'];  
+		    var digit = ['零','壹','贰','叁','肆','伍','陆','柒','捌','玖'];  
+		    var unit = [['元','万','亿'],['','拾','佰','仟']];  
+		    var head = numoney < 0?'欠':'';  
+		    numoney = Math.abs(numoney);  
+		    var s = '';  
+		    for (var i = 0; i < fraction.length; i++) {  
+		      s += (digit[Math.floor(numoney * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');  
+		    }  
+		    s = s || '整';  
+		    numoney = Math.floor(numoney);  
+		    for (var i = 0; i < unit[0].length && numoney > 0; i++) {  
+		      var p = '';  
+		      for (var j = 0; j < unit[1].length && numoney > 0; j++) {  
+		        p = digit[numoney % 10] + unit[1][j] + p;  
+		        numoney = Math.floor(numoney / 10);  
+		      }  
+		      s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;  
+		    }  
+		    var sum= head + s.replace(/(零.)*零元/,'元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');  
+		    return sum;
+		}
+		
+		var isPid=false;
+		var isCaseNo=false;
+		//用于计算总金额
+		var money = 0;
+		//根据身份证读卡显示部分基本信息
+		$("#shoufei_idcard").click(function(){
+			var p_id = $("#shoufei_pid").val();
+			if(p_id != ''){
+				//查询信息
+				$.ajax({
+					url:"/his/getRegisterByPid",
+					type:"get",
+					data:{pid:p_id},
+					dataType:"json",//声明返回格式类型
+					error:function(){
+						alert("查询身份信息失败");
+					},
+					success:function(data){
+						if(null != data){
+							isPid=true;
+						}
+						//展示数据到页面
+						//alert(1);
+						if(p_id == data.idCard){
+							$("#shoufei_name").val(data.rname);
+							$("#shoufei_sex").val(data.sex);
+							$("#shoufei_age").val(data.age);
+							$("#shoufei_birdate").val(data.birthday);
+							$("#shoufei_idnum").val(data.idCard);
+							$("#shoufei_agetype").val(data.ageType);
+						}
+					}
+				});
+			}else{
+				alert("请输入身份证号！");
+			}
+		});
+		//病历号失去焦点显示部分信息事件
+		$("#shoufei_binglihao").blur(function(){
+			var caseNo = $("#shoufei_binglihao").val();
+			$.ajax({
+				url:"/his/chargeGetRegByCaseNo",
+				data:{caseNo:caseNo},
+				dataType:"json",//声明返回格式类型
+				error:function(){
+					alert("病历号查询失败");
+				},
+				success:function(data){
+					if(null != data){
+						isCaseNo=true;
+					}
+					console.info(data);
+					//展示数据到页面
+					var p_id = $("#shoufei_pid").val();
+					if(null != data && p_id == data.idCard){
+						//结算类别：0：自费，1：报销
+						if(data.settleType == 0){
+							$("#shoufei_jiesuan option[value='0']").attr("selected",true);
+							$("#shoufei_jiesuan option[value='1']").attr("selected",false);
+						}else{
+							$("#shoufei_jiesuan option[value='1']").attr("selected",true);
+							$("#shoufei_jiesuan option[value='0']").attr("selected",false);
+						}
+						$("#shoufei_yiliaonum").val(data.mcardNo);
+						$("#shoufei_yiliaotype").val(data.medicalType);
+						$("#shoufei_dep").val(data.depName);
+						$("#shoufei_dia").val(data.caseInfo);
+						$("#shoufei_doc").val(data.userName);
+					}else{
+						alert("该病历号不属于" + p_id);
+					}
+				}
+			});
+		});
+		
+		//增加收费，获取药品信息
+		$("#shoufei_add_drug").click(function(){
+			//身份证号
+			if(isPid && isCaseNo){
+				//查询药品
+				$.ajax({
+					url:"/his/getAllDrugInfo",
+					type:"post",
+					dataType:"json",//声明返回格式类型
+					error:function(){
+						alert("获取全部药品失败");
+					},
+					success:function(e){
+						//展示数据到页面
+						//console.info(e);
+						if(null != e){
+							$("#show-druginfo").html("");
+							$.each(e,function(index,data){
+								var tbHtml = '<tr>';
+								tbHtml +='<td><input name="check_drug" type="checkbox" /></td>';
+								tbHtml +='<td>'+data.dgName+'</td>';
+								tbHtml +='<td>'+data.dgSpec+'</td>';
+								tbHtml +='<td>'+data.dgPrice+'</td>';
+								tbHtml +='<td>'+data.dgInv+'</td>';
+								tbHtml +='<td>'+data.dgUit+'</td>';
+								tbHtml +='<td style="display:none">'+data.id+'</td>';
+								tbHtml += '</tr>';
+								$("#show-druginfo").append(tbHtml);
+							});
+							$('#myModal').modal('show');
+						}else{
+							alert("没有药品信息，请及时添加！");
+						}
+					}
+				});
+			}else{
+				alert("请先查询挂号信息！");
+			}
+		});
+		
+		//确定选择药品
+		$("#submit_btn").click(function(){
+			var trs = $("#show-druginfo").children("tr");
+			for(var i = 0; i < trs.length; i++){
+				//选中被选择的行
+				var ck = $(trs.get(i)).children("td").children("input[name='check_drug']:checked");
+				console.info("选择药品："+ck.length);
+				if(ck.length != 0){
+					var tb = $(ck).parent().parent().children("td");
+					
+					var name = tb.eq(1).text();//项目名称
+					var spec = tb.eq(2).text();//规格
+					var price = tb.eq(3).text();//单价
+					var inv = tb.eq(4).text();//数量
+					var uit = tb.eq(5).text();//单位
+					var id = tb.eq(6).text();//id
+					//console.info("单位："+uit);
+					//console.info("id:"+id);
+					var html ='<tr>';
+					html +='<td><input type="checkbox" name="check-select" /></td>';
+					html +='<td>'+name+'</td>';
+	        		html +='<td>'+spec+'</td>';
+	        		html +='<td id="dgprice2">'+price+'</td>';
+	        		html +='<td id="dginv2">'+inv+'</td>';
+	        		html +='<td>'+uit+'</td>';
+	        		html +='<td><input name="drug_num" type="text" value="0" ></td>';
+	        		html +='<td><input type="text" value="0" readonly="readonly"></td>';
+	        		html +='<td>外科</td>';
+	        		html +='<td class="drug_no" style="display:none">'+id+'</td>';
+	        		html +='</tr>';
+	        		$("#showData").append(html);
+				}
+			}
+		});
+		
+		//存储药的数量
+		var number = 0;
+		$("#showData").on("click","input[name='drug_num']",function(){
+			number = $(this).val();
+		});
+		//根据要的数量计算费用
+		$("#showData").on("blur","input[name='drug_num']",function(){
+			var number2 = $(this).val();//付数
+			var price = $(this).parent().parent().children("td").eq(3).text(); // 单价
+			$(this).parent().parent().children("td").eq(7).children("input").val(eval(number2*price));
+			//如果当前行被选中则更新总和
+			var trs = $("#showData").children("tr");
+			var totalmoney = 0;
+			for(var i = 0; i < trs.length; i++){
+				//选中被选择的行
+				var ck = $(trs.get(i)).children("td").children("input[name='check-select']:checked");
+				console.info("ck.length:"+ck.length);
+				if(ck.length != 0){
+					var tb = $(ck).parent().parent().children("td");
+					totalmoney += eval(tb.eq(7).children("input").val());
+					console.info("inputmoney:"+tb.eq(7).children("input").val());
+				}
+			}
+			money = totalmoney;
+			$("#total").val(money);
+			$("#total_char").val(getChineseString(money));
+			/* var isSelected = $("#showData input[type='checkbox']").is(":checked");
+			if(isSelected){
+				console.info("number:"+number);
+				console.info("number2:"+number2);
+				if(number > number2){
+					money=eval(price/number2);	
+				}
+				if(number < number2 ){
+					money=eval(price*number2);	
+				}
+				$("#total").val(money);
+			}  */
+		});
+		
+		//计算总金额
+		$("#showData").on("click","input[type='checkbox']",function(){
+				var price = $(this).parent().parent().children("td").eq(7).children("input").val();
+				var isSelected = $(this).is(":checked");
+				console.info("isSelected:"+isSelected);
+				if(isSelected){
+					money+=eval(price);	
+				}else{
+					money-=eval(price);	
+				}
+				$("#total").val(money);
+				$("#total_char").val(getChineseString(money));
+		});
+		
+		//划价，添加划价信息
+		$("#shoufei_huajia").click(function(){
+			var trs = $("#showData").children("tr");
+			//声明数组
+			var drugArr=[];
+			for(var i = 0; i < trs.length; i++){
+				//选中被选择的行
+				var ck = $(trs.get(i)).children("td").children("input[name='check-select']:checked");
+				if(ck.length != 0){
+					var tb = $(ck).parent().parent().children("td");
+					var id = tb.eq(9).text();
+					var num = tb.eq(6).children("input").val();
+					var totalMoney = tb.eq(7).children("input").val();
+					//push 添加数组[{1,1},{3,1}]
+					drugArr.push(id+","+num+","+totalMoney);
+				}
+			}
+			var caseNo = $("input[id='shoufei_binglihao']").val();
+			//console.info(drugArr);
+			$.ajax({
+				url:"/his/addPayInfo",
+				type:"post",
+				dataType:"text",
+				data:{
+					caseNo:caseNo,
+					drugArr:drugArr
+				},
+				traditional:true,//数组传参设置为true
+				error:function(){
+					alert("failed");
+				},
+				success:function(e){
+					console.info(e);
+					if(e=="yes"){
+						alert("划价成功");
+					}else{
+						alert("划价失败");
+					}
+				}
+			});
+		});
+		
+		//收费结算，获取划价表单信息
+		$("#shoufei_jiesuan").click(function(){
+			//查询并显示
+			var caseNo = $("input[id='shoufei_binglihao']").val();
+			$.ajax({
+				url:"/his/getPayDetail",
+				type:"post",
+				dataType:"json",
+				data:{
+					caseNo:caseNo
+				},
+				traditional:true,//数组传参设置为true
+				error:function(){
+					alert("failed");
+				},
+				success:function(e){
+					//console.info(e);
+					if(null != e){
+						//根据当前caseNo查询
+						if(null != e){
+							$("#show-huajiainfo").html("");
+							$.each(e,function(index,data){
+								var tbHtml = '<tr>';
+								tbHtml +='<td><input name="radio_drug" type="checkbox" /></td>';
+								tbHtml +='<td>'+data.id+'</td>';
+								tbHtml +='<td>'+data.caseNo+'</td>';
+								tbHtml +='<td>'+data.payMoney+'</td>';
+								if(data.payState == 0){
+									tbHtml +='<td>未收费</td>';
+								}else{ 
+									tbHtml +='<td>已收费</td>'; 
+								 } 
+								//tbHtml +='<td>'+data.payState+'</td>'; 
+								//tbHtml +='<td>'+data.dgUit+'</td>';
+								tbHtml +='<td style="display:none">'+data.id+'</td>'; 
+								tbHtml += '</tr>';
+								$("#show-huajiainfo").append(tbHtml);
+							});
+							$('#myModal2').modal('show');
+						}else{
+							alert("没有划价信息，请及时添加！");
+						}
+					}
+				}
+			});
+		});
+		
+		//执行收费：点击确定按钮更改收费状态
+		var is_payState;
+		$("#submit_btn_tb").click(function(){
+			var trs = $("#show-huajiainfo").children("tr");
+			//声明数组支付PayId
+			var payId=[];
+			for(var i = 0; i < trs.length; i++){
+				//选中被选择的行
+				var ck = $(trs.get(i)).children("td").children("input[name='radio_drug']:checked");
+				if(ck.length != 0){
+					var tb = $(ck).parent().parent().children("td");
+					//push 添加数组[{1,1},{3,1}]
+					payId.push(tb.eq(1).text());
+				}
+			}
+			console.info(payId);
+			
+			$.ajax({
+				url:"/his/updatePayStateByPayId",
+				type:"post",
+				dataType:"text",
+				data:{payId:payId},
+				traditional:true,//数组传参设置为true
+				error:function(){
+					alert("failed");
+				},
+				success:function(e){
+					console.info(e);
+					if(e=="yes"){
+						alert("收费成功");
+					}else{
+						alert("收费失败");
+					}
+				}
+			});
+			
+			
+			
+			/* var tb = $("#show-huajiainfo").children("tr").children("td");
+			is_payState = tb.eq(4).text();
+			console.info("is_payState:"+is_payState);
+			var caseNo = tb.eq(2).text();
+			console.info("caseNo:"+caseNo);
+			var payState;
+			if(is_payState == "未收费"){
+				payState = 0;
+			}else{
+				payState = 1;
+			}
+			// 判断是否选择
+			var isSelect = $("input[name='radio_drug']").is(":checked");
+			if(!isSelect){
+				alert("请先选择划价信息");
+			}else if("已收费"== is_payState){
+				alert("不能重复收费");
+			}else{
+				$.ajax({
+					url:"/his/updatePayState",
+					type:"get",
+					data:{
+						
+						},
+					dataType:"text", // 声明返回格式类型
+					error:function(){
+						alert("收费失败");
+					},
+					success:function(data){
+						if("yes" == data){
+							alert("收费成功");
+						}else{
+							alert("faild");
+						}
+					}
+				});
+			} */
+		});
+		
+		//清屏
+		$("#shoufei_clear").click(function(){
+			$("#shoufei_binglihao").val('');
+			$("#shoufei_pid").val('');
+			$("#shoufei_name").val('');
+			$("#shoufei_age").val('');
+			$("#shoufei_agetype").val('');
+			$("#shoufei_birdate").val('');
+			$("#shoufei_dia").val('');
+			$("#shoufei_jiesuan").val('');
+			$("#shoufei_yiliaonum").val('');
+			$("#shoufei_idnum").val('');
+		});
+		</script>
+		
+	</body>
+</html>
